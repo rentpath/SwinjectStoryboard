@@ -33,8 +33,8 @@ class SwinjectStoryboardSpec: QuickSpec {
                 }
                 container.register(Animal.self) { _ in Cat(name: "Mimi") }
                 
-                let storyboard = SwinjectStoryboard.create(name: "Animals", bundle: bundle, container: container)
-                let animalViewController = storyboard.instantiateController(withIdentifier: "AnimalView") as! AnimalViewController
+                let storyboard = SwinjectStoryboard.create(name: .animals, bundle: bundle, container: container)
+                let animalViewController = storyboard.instantiateController(withIdentifier: .animalView) as! AnimalViewController
                 expect(animalViewController.hasAnimal(named: "Mimi")) == true
             }
             it("injects window controller dependency definded by initCompleted handler.") {
@@ -43,8 +43,8 @@ class SwinjectStoryboardSpec: QuickSpec {
                 }
                 container.register(Animal.self) { _ in Cat(name: "Mew") }
                 
-                let storyboard = SwinjectStoryboard.create(name: "Animals", bundle: bundle, container: container)
-                let animalViewController = storyboard.instantiateController(withIdentifier: "AnimalWindow") as! AnimalWindowController
+                let storyboard = SwinjectStoryboard.create(name: .animals, bundle: bundle, container: container)
+                let animalViewController = storyboard.instantiateController(withIdentifier: .animalWindow) as! AnimalWindowController
                 expect(animalViewController.hasAnimal(named: "Mew")) == true
             }
             it("injects dependency to child view controllers.") {
@@ -54,10 +54,15 @@ class SwinjectStoryboardSpec: QuickSpec {
                 container.register(Animal.self) { _ in Cat() }
                     .inObjectScope(.container)
                 
-                let storyboard = SwinjectStoryboard.create(name: "Tabs", bundle: bundle, container: container)
-                let tabBarController = storyboard.instantiateController(withIdentifier: "TabBarController") as! NSTabViewController
+                let storyboard = SwinjectStoryboard.create(name: .tabs, bundle: bundle, container: container)
+                let tabBarController = storyboard.instantiateController(withIdentifier: .tabBarController) as! NSTabViewController
+            #if swift(>=4.2)
+                let animalViewController1 = tabBarController.children[0] as! AnimalViewController
+                let animalViewController2 = tabBarController.children[1] as! AnimalViewController
+            #else
                 let animalViewController1 = tabBarController.childViewControllers[0] as! AnimalViewController
                 let animalViewController2 = tabBarController.childViewControllers[1] as! AnimalViewController
+            #endif
                 let cat1 = animalViewController1.animal as! Cat
                 let cat2 = animalViewController2.animal as! Cat
                 expect(cat1 === cat2).to(beTrue()) // Workaround for crash in Nimble.
@@ -75,8 +80,8 @@ class SwinjectStoryboardSpec: QuickSpec {
                         c.animal = Cat(name: "Mimi")
                     }
                     
-                    let storyboard = SwinjectStoryboard.create(name: "Animals", bundle: bundle, container: container)
-                    let animalViewController = storyboard.instantiateController(withIdentifier: "HachiView") as! AnimalViewController
+                    let storyboard = SwinjectStoryboard.create(name: .animals, bundle: bundle, container: container)
+                    let animalViewController = storyboard.instantiateController(withIdentifier: .hachiView) as! AnimalViewController
                     expect(animalViewController.hasAnimal(named: "Hachi")) == true
                 }
                 it("injects window controller dependency definded by initCompleted handler with the registration name.") {
@@ -91,8 +96,8 @@ class SwinjectStoryboardSpec: QuickSpec {
                         c.animal = Cat(name: "Mimi")
                     }
                     
-                    let storyboard = SwinjectStoryboard.create(name: "Animals", bundle: bundle, container: container)
-                    let animalViewController = storyboard.instantiateController(withIdentifier: "PochiWindow") as! AnimalWindowController
+                    let storyboard = SwinjectStoryboard.create(name: .animals, bundle: bundle, container: container)
+                    let animalViewController = storyboard.instantiateController(withIdentifier: .pochiWindow) as! AnimalWindowController
                     expect(animalViewController.hasAnimal(named: "Pochi")) == true
                 }
             }
@@ -104,8 +109,8 @@ class SwinjectStoryboardSpec: QuickSpec {
                     container.register(Animal.self) { _ in Cat(name: "Mimi") }
                     let childContainer = Container(parent: container)
                     
-                    let storyboard = SwinjectStoryboard.create(name: "Animals", bundle: bundle, container: childContainer)
-                    let animalViewController = storyboard.instantiateController(withIdentifier: "AnimalView") as! AnimalViewController
+                    let storyboard = SwinjectStoryboard.create(name: .animals, bundle: bundle, container: childContainer)
+                    let animalViewController = storyboard.instantiateController(withIdentifier: .animalView) as! AnimalViewController
                     expect(animalViewController.hasAnimal(named: "Mimi")) == true
                 }
             }
@@ -116,7 +121,7 @@ class SwinjectStoryboardSpec: QuickSpec {
                     }
                     container.register(Animal.self) { _ in Cat(name: "Mimi") }
 
-                    let storyboard = SwinjectStoryboard.create(name: "Pages", bundle: bundle, container: container)
+                    let storyboard = SwinjectStoryboard.create(name: .pages, bundle: bundle, container: container)
                     let pagesController = storyboard.instantiateInitialController() as! AnimalPagesViewController
                     expect(pagesController.animalPage.hasAnimal(named: "Mimi")) == true
                 }
@@ -129,7 +134,7 @@ class SwinjectStoryboardSpec: QuickSpec {
                 }
                 container.register(Animal.self) { _ in Cat(name: "Mew") }
                 
-                let storyboard = SwinjectStoryboard.create(name: "Animals", bundle: bundle, container: container)
+                let storyboard = SwinjectStoryboard.create(name: .animals, bundle: bundle, container: container)
                 let animalViewController = storyboard.instantiateInitialController() as! AnimalWindowController
                 expect(animalViewController.hasAnimal(named: "Mew")) == true
             }
@@ -138,8 +143,8 @@ class SwinjectStoryboardSpec: QuickSpec {
             it("uses the default shared container if no container is passed.") {
                 SwinjectStoryboard.defaultContainer.storyboardInitCompleted(AnimalViewController.self) { _, _ in }
                 
-                let storyboard = SwinjectStoryboard.create(name: "Animals", bundle: bundle)
-                let animalViewController = storyboard.instantiateController(withIdentifier: "AnimalView")
+                let storyboard = SwinjectStoryboard.create(name: .animals, bundle: bundle)
+                let animalViewController = storyboard.instantiateController(withIdentifier: .animalView)
                 expect(animalViewController).notTo(beNil())
             }
             
@@ -154,10 +159,10 @@ class SwinjectStoryboardSpec: QuickSpec {
                 }
                 SwinjectStoryboard.defaultContainer.register(Animal.self) { _ in Cat(name: "Mimi") }
                 
-                let storyboard1 = SwinjectStoryboard.create(name: "Storyboard1", bundle: bundle)
+                let storyboard1 = SwinjectStoryboard.create(name: .storyboard1, bundle: bundle)
                 let windowController = storyboard1.instantiateInitialController() as! NSWindowController
                 let viewController1 = windowController.contentViewController as! ViewController1
-                viewController1.performSegue(withIdentifier: "ToStoryboard2", sender: nil)
+                viewController1.performSegue(withIdentifier: .toStoryboard2, sender: nil)
                 expect(viewController1.animalViewController?.hasAnimal(named: "Mimi")).toEventually(beTrue())
             }
             context("referencing storyboard via relationship segue") {
@@ -167,7 +172,7 @@ class SwinjectStoryboardSpec: QuickSpec {
                         injectedTimes += 1
                     }
 
-                    let storyboard = SwinjectStoryboard.create(name: "RelationshipReference1", bundle: bundle)
+                    let storyboard = SwinjectStoryboard.create(name: .relationshipReference1, bundle: bundle)
                     storyboard.instantiateInitialController()
 
                     expect(injectedTimes) == 1
@@ -179,10 +184,10 @@ class SwinjectStoryboardSpec: QuickSpec {
                         }
                         container.register(Animal.self) { _ in Cat(name: "Mimi") }
 
-                        let storyboard = SwinjectStoryboard.create(name: "RelationshipReference1", bundle: bundle, container: container)
+                        let storyboard = SwinjectStoryboard.create(name: .relationshipReference1, bundle: bundle, container: container)
                         let windowController = storyboard.instantiateInitialController() as! NSWindowController
                         let viewController1 = windowController.contentViewController as! ViewController1
-                        viewController1.performSegue(withIdentifier: "ToAnimalViewController", sender: nil)
+                        viewController1.performSegue(withIdentifier: .toAnimalViewController, sender: nil)
 
                         expect(viewController1.animalViewController?.hasAnimal(named: "Mimi")).toEventually(beTrue())
                     }
@@ -195,10 +200,32 @@ class SwinjectStoryboardSpec: QuickSpec {
         }
         describe("Setup") {
             it("calls setup function only once.") {
-                _ = SwinjectStoryboard.create(name: "Animals", bundle: bundle)
-                _ = SwinjectStoryboard.create(name: "Animals", bundle: bundle)
+                _ = SwinjectStoryboard.create(name: .animals, bundle: bundle)
+                _ = SwinjectStoryboard.create(name: .animals, bundle: bundle)
                 expect(swinjectStoryboardSetupCount) == 1
             }
         }
     }
 }
+
+private extension NSStoryboard.Name {
+    static let animals = NSStoryboard.Name("Animals")
+    static let storyboard1 = NSStoryboard.Name("Storyboard1")
+    static let relationshipReference1 = NSStoryboard.Name("RelationshipReference1")
+    static let pages = NSStoryboard.Name("Pages")
+    static let tabs = NSStoryboard.Name("Tabs")
+}
+
+private extension NSStoryboard.SceneIdentifier {
+    static let animalView = NSStoryboard.SceneIdentifier("AnimalView")
+    static let animalWindow = NSStoryboard.SceneIdentifier("AnimalWindow")
+    static let tabBarController = NSStoryboard.SceneIdentifier("TabBarController")
+    static let hachiView = NSStoryboard.SceneIdentifier("HachiView")
+    static let pochiWindow = NSStoryboard.SceneIdentifier("PochiWindow")
+}
+
+private extension NSStoryboardSegue.Identifier {
+    static let toStoryboard2 = NSStoryboardSegue.Identifier("ToStoryboard2")
+    static let toAnimalViewController = NSStoryboardSegue.Identifier("ToAnimalViewController")
+}
+

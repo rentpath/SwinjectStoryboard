@@ -8,7 +8,13 @@
 
 #import "NSStoryboard+Swizzling.h"
 #import <objc/runtime.h>
-#import <SwinjectStoryboard/SwinjectStoryboard-Swift.h>
+
+#if __has_include(<SwinjectStoryboard/SwinjectStoryboard-Swift.h>)
+    #import <SwinjectStoryboard/SwinjectStoryboard-Swift.h>
+#elif __has_include("SwinjectStoryboard-Swift.h")
+    #import "SwinjectStoryboard-Swift.h"
+#endif
+
 #import <SwinjectStoryboard/SwinjectStoryboardProtocol.h>
 
 @implementation NSStoryboard (Swizzling)
@@ -41,7 +47,7 @@
     });
 }
 
-+ (nonnull instancetype)swinject_storyboardWithName:(NSString *)name bundle:(nullable NSBundle *)storyboardBundleOrNil {
++ (nonnull instancetype)swinject_storyboardWithName:(NSStoryboardName)name bundle:(nullable NSBundle *)storyboardBundleOrNil {
     if (self == [NSStoryboard class]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
