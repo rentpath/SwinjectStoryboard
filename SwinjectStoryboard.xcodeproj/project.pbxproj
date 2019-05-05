@@ -797,7 +797,7 @@
 				TargetAttributes = {
 					985904051CDB0AA700275E4A = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
 					9859040F1CDB0AA700275E4A = {
@@ -815,7 +815,7 @@
 					};
 					98D562931CDB19AB00DECDC0 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1020;
 					};
 					98D5629C1CDB19AB00DECDC0 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -825,10 +825,11 @@
 			};
 			buildConfigurationList = 985904001CDB0AA700275E4A /* Build configuration list for PBXProject "SwinjectStoryboard" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 985903FC1CDB0AA700275E4A;
 			productRefGroup = 985904071CDB0AA700275E4A /* Products */;
@@ -1105,6 +1106,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.el-eleven.SwinjectStoryboard";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1123,6 +1125,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.el-eleven.SwinjectStoryboard";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1240,6 +1243,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.el-eleven.SwinjectStoryboard";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Debug;
@@ -1260,6 +1264,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.el-eleven.SwinjectStoryboard";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Release;
